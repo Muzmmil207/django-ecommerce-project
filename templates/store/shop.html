@@ -1,20 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<!-- Page Header Start -->
-<div class="container-fluid bg-secondary mb-5">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-        <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
-        <div class="d-inline-flex">
-            <p class="m-0"><a href="">Home</a></p>
-            <p class="m-0 px-2">-</p>
-            <p class="m-0">Shop</p>
-        </div>
-    </div>
-</div>
-<!-- Page Header End -->
-
-
 <!-- Shop Start -->
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
@@ -126,26 +111,27 @@
                         </div>
                     </div>
                 </div>
-                {% for item in products %}
+                {% for product in products %}
                 <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div
                             class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="{{item.image.url}}" alt="">
+                            <img class="img-fluid w-100" src="{{product.image.url}}" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">{{item.name}}</h6>
+                            <h6 class="text-truncate mb-3">{{product.name}}</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>${{item.price}}</h6>
-                                <h6 class="text-muted ml-2"><del>${{item.price}}</del></h6>
+                                <h6>${{product.price}}</h6>
+                                <h6 class="text-muted ml-2"><del>${{product.price}}</del></h6>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="{% url 'pro_detail' item.slug item.id %}"
+                            <a href="{% url 'pro_detail' product.slug product.id %}"
                                 class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
                                 Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i
-                                    class="fas fa-shopping-cart text-primary mr-1 cart-update"></i>Add To Cart</a>
+                            <button id="add-button" value="{{product.id}}" class="btn btn-sm text-dark p-0">
+                                <i class="fas fa-shopping-cart text-primary mr-1 cart-update"></i>Add To Cart
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -179,16 +165,22 @@
 </div>
 <!-- Shop End -->
 <script>
-    filter = document.getElementsByClassName("filter-form")
-    for (let i = 0; i < filter[0].length; i++) {
-        filter[0][i].addEventListener('click', () => {
-            let url = document.location.href
-            fetch(url)
-                .then((data) => {
-                    console.log('data: ', data)
-                    location.reload()
-                })
-        })
-    }
+        $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        let id = $(this).val()
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_add" %}',
+            data: {
+                productid: id,
+                productqty: 1,
+                csrfmiddlewaretoken: "{{csrf_token}}",
+            },
+            success: function (response) {
+               console.log('The product added to the cart')
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    })
 </script>
 {% endblock %}

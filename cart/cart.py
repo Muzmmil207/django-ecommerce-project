@@ -24,8 +24,8 @@ class Cart:
             self.cart[str(product_id)] = {'price': float(product.price), 'qty': qty}
 
         self.save()
-        print(self.cart.values())
-        print(self.cart.keys())
+        # print(self.cart.values())
+        # print(self.cart.keys())
 
     def __iter__(self):
         """

@@ -101,20 +101,20 @@
 <!-- Shop Detail End -->
 <script>
     $(document).on('click', '#add-button', function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: '{% url "cart_add" %}',
-        data: {
-            productid: $('#add-button').val(),
-            productqty: $('#select option:selected').text(),
-            csrfmiddlewaretoken: "{{csrf_token}}",
-        },
-        success: function (response) {
-            document.getElementById("cart-qty").innerHTML = response.qty
-        },
-        error: function (xhr, errmsg, err) {}
-    });
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_add" %}',
+            data: {
+                productid: $('#add-button').val(),
+                productqty: $('#select option:selected').text(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+            },
+            success: function (response) {
+                console.log('The product added to the cart')
+            },
+            error: function (xhr, errmsg, err) {}
+        });
     })
 </script>
 {% endblock %}

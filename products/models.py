@@ -44,7 +44,7 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     objects = models.Manager()
-    product = ProductManager()
+    products = ProductManager()
 
     def __str__(self):
         return self.title

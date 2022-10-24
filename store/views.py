@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 
 def home(request):
-    products = Product.product.all()
+    products = Product.products.all()
     context = {'products': products}
 
     return render(request, 'store/shop.html', context)
@@ -19,4 +19,4 @@ def pro_detail(request, slug, pk):
 
 
 def checkout(request):
-    return render(request, 'store/Checkout.html')
+    return render(request, 'store/checkout.html')

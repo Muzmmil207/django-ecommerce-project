@@ -91,7 +91,7 @@
         let productId = $(this).val()
         $.ajax({
             type: 'POST',
-            url: '{% url "cart_delete" %}',
+            url: '{% url "cart_update" %}',
             data: {
                 productid: $('#delete-button').val(),
                 csrfmiddlewaretoken: "{{csrf_token}}",

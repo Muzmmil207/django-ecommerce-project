@@ -12,8 +12,9 @@ def cart_summary(request):
 def cart_add(request):
     cart = Cart(request)
     if request.method == 'POST':
+        print(request.POST)
         product_id = int(request.POST.get('productid'))
-        product_qty = int(request.POST.get('productqty', 1))
+        product_qty = int(request.POST.get('productqty'))
         product = Product.objects.get(id=product_id)
         cart.add(product=product, qty=product_qty)
 
@@ -23,7 +24,7 @@ def cart_add(request):
     return response
         
 
-def cart_delete(request):
+def cart_update(request):
     cart = Cart(request)
     if request.method == 'POST':
         product_id = request.POST.get('productid')
