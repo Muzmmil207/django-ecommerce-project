@@ -15,6 +15,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+        ordering = ['name']
+
 
 class Product(models.Model):
     category = models.ForeignKey(
@@ -42,8 +46,9 @@ class Product(models.Model):
     objects = models.Manager()
     product = ProductManager()
 
-    class Meta:
-        ordering = ['-created']
-
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Products'
+        ordering = ['-created']

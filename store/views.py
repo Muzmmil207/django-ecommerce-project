@@ -11,8 +11,8 @@ def home(request):
     return render(request, 'store/shop.html', context)
 
 
-def pro_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug, in_stock=True)
+def pro_detail(request, slug, pk):
+    product = get_object_or_404(Product, slug=slug, id=pk, in_stock=True)
     context = {'product': product}
 
     return render(request, 'store/detail.html', context)
