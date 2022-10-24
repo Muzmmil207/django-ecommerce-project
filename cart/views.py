@@ -13,7 +13,7 @@ def cart_add(request):
     cart = Cart(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('productid'))
-        product_qty = int(request.POST.get('productqty'))
+        product_qty = int(request.POST.get('productqty', 1))
         product = Product.objects.get(id=product_id)
         cart.add(product=product, qty=product_qty)
 
@@ -22,3 +22,11 @@ def cart_add(request):
     
     return response
         
+
+def cart_delete(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        product_id = request.POST.get('productid')
+        cart.delete(product_id=product_id)
+
+    return JsonResponse('Button clicked', safe=False)
