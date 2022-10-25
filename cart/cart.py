@@ -12,20 +12,6 @@ class Cart:
             cart = self.session['session_key'] = {}
         self.cart = cart
 
-    def add(self, product, qty):
-        """
-        Adding and updating the users cart session data
-        """
-        product_id = product.id
-
-        if product_id in self.cart:
-            self.cart[str(product_id)]['qty'] = qty
-        else:
-            self.cart[str(product_id)] = {'price': float(product.price), 'qty': qty}
-
-        self.save()
-        # print(self.cart.values())
-        # print(self.cart.keys())
 
     def __iter__(self):
         """
@@ -49,8 +35,37 @@ class Cart:
         """
         return sum(item['qty'] for item in self.cart.values())
 
+    def save(self):
+        self.session.modified = True
+        
     def get_cart_total(self):
         return sum(item['price'] * item['qty'] for item in self.cart.values())
+
+    def add(self, product, qty):
+        """
+        Adding and updating the users cart session data
+        """
+        product_id = product.id
+
+        if product_id in self.cart:
+            self.cart[str(product_id)]['qty'] = qty
+        else:
+            self.cart[str(product_id)] = {'price': float(product.price), 'qty': qty}
+
+        self.save()
+        # print(self.cart.values())
+        # print(self.cart.keys())
+
+    def update(self, product_id, action):
+        if product_id in self.cart:
+            product =  self.cart[str(product_id)]
+
+            if action == 'plus':
+                product['qty'] += 1
+            elif action == 'minus':
+                product['qty'] -= 1
+
+            self.save()
 
     def delete(self, product_id):
         # product_id = str(id)
@@ -58,5 +73,3 @@ class Cart:
             del self.cart[product_id]
             self.save()
 
-    def save(self):
-        self.session.modified = True
