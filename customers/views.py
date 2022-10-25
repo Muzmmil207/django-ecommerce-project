@@ -1,30 +1,51 @@
+from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib import messages
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from customers.models import User
-
 from .token import account_activation_token
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UserEditForm
 from .decorators import is_not_authenticated
 # Create your views here.
 
 @login_required
 def dashboard(request):
 
-    context = {'form': 'form'}
-
+    context = {}
     return render(request, 'customers/user/dashboard.html', context)
 
 
-# @is_not_authenticated
+@login_required
+def edit_details(request):
+    form = UserEditForm(instance=request.user)
+
+    if request.method == 'POST':
+        form = UserEditForm(instance=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'customers/user/edit_details.html', context)
+
+
+
+@login_required
+def delete_user(request):
+    user = request.user
+    user.is_active = False
+    user.save()
+    logout(request)
+    return redirect('delete_confirmation')
+
+
+@is_not_authenticated 
 def register(request):
     form = RegistrationForm()
 

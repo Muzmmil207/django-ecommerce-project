@@ -1,8 +1,16 @@
 from django import forms
-from django.forms.widgets import PasswordInput, TextInput, EmailInput
-from django.utils.translation import gettext as _
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 
 from .models import User
+
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id':'login-username'}
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Password', 'id':'login-pwd'}
+    ))
 
 
 class RegistrationForm(forms.ModelForm):
@@ -50,7 +58,62 @@ class RegistrationForm(forms.ModelForm):
         return user
 
 
-class CustomAuthForm(forms.Form):
-    email = forms.CharField(widget=EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'required': 'required', 'name': 'email'}))
-    password = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'required': 'required', 'name': 'password'}))
+class UserEditForm(forms.ModelForm):
 
+    email = forms.EmailField(
+        label='Account email (can not be changed)', max_length=50,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}
+        ))
+    first_name = forms.CharField(
+        label='Firstname', min_length=4, max_length=150,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-firstname', 'readonly': 'readonly'}
+        ))
+    last_name = forms.CharField(
+        label='Username', min_length=4, max_length=150,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'last name', 'id': 'form-lastname'}
+        ))
+    country = forms.CharField(
+        label='Username', min_length=4, max_length=150,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'country', 'id': 'form-country'}
+        ))
+
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'country')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['email'].required = True
+
+class PasswordEmailForm(PasswordResetForm):
+    email = forms.EmailField(max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email'}
+        ))
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email)
+
+        if not user:
+            raise forms.ValidationError('Unfortunatley we can not find that email address')
+
+        return email
+
+class PasswordResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password',
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}
+        )
+    )
+    new_password2 = forms.CharField(
+        label='Repeat password',
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}
+        )
+    )
