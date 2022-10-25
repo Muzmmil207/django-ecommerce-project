@@ -68,7 +68,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-AUTH_USER_MODEL = "customers.User"
 
 DATABASES = {
     'default': {
@@ -120,3 +119,10 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "customers.User"
+LOGIN_REDIRECT_URL = '/customer/dashboard/'
+LOGIN_URL = '/customer/login/'
+
+# Email setting
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
