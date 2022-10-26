@@ -1,12 +1,13 @@
-from django.shortcuts import render
 from django.http import JsonResponse
+from django.shortcuts import render
+from products.models import Product
 
 from .cart import Cart
-from products.models import Product
+
 # Create your views here.
 
 
-def cart_summary(request):
+def shopping_cart(request):
     return render(request, 'cart/summary.html')
 
 
@@ -14,13 +15,13 @@ def cart_add(request):
     cart = Cart(request)
     if request.method == 'POST':
         print(request.POST)
-        product_id = int(request.POST.get('productid'))
+        product_id = request.POST.get('productid')
         product_qty = int(request.POST.get('productqty'))
         product = Product.objects.get(id=product_id)
         cart.add(product=product, qty=product_qty)
-
+    print(cart.cart)
     cartqty = cart.__len__()
-    response = JsonResponse({'qty': cartqty})
+    response = JsonResponse('', safe=False)
     
     return response
         

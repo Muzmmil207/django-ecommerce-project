@@ -177,7 +177,7 @@
                 csrfmiddlewaretoken: "{{csrf_token}}",
             },
             success: function (response) {
-               console.log('The product added to the cart')
+               location.reload()
             },
             error: function (xhr, errmsg, err) {}
         });

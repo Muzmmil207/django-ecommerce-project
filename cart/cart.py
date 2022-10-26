@@ -1,5 +1,6 @@
 from products.models import Product
 
+
 class Cart:
     """
     A base Cart class, providing some default behaviors that
@@ -8,10 +9,9 @@ class Cart:
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get('session_key')
-        if 'session_key' not in self.session:
+        if cart == None:
             cart = self.session['session_key'] = {}
         self.cart = cart
-
 
     def __iter__(self):
         """
@@ -27,7 +27,7 @@ class Cart:
 
         for item in cart.values():
             item['total_price'] = item['price'] * item['qty']
-            yield item
+        yield item
 
     def __len__(self):
         """
@@ -51,24 +51,20 @@ class Cart:
             self.cart[str(product_id)]['qty'] = qty
         else:
             self.cart[str(product_id)] = {'price': float(product.price), 'qty': qty}
-
         self.save()
-        # print(self.cart.values())
-        # print(self.cart.keys())
 
     def update(self, product_id, action):
         if product_id in self.cart:
-            product =  self.cart[str(product_id)]
+            product =  self.cart[product_id]
 
             if action == 'plus':
                 product['qty'] += 1
             elif action == 'minus':
                 product['qty'] -= 1
-
+                if product['qty'] < 0: self.delete(product_id)
             self.save()
 
     def delete(self, product_id):
-        # product_id = str(id)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
