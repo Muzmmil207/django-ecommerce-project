@@ -121,11 +121,11 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                            <a href="{% url 'cart_summary' %}" class="nav-item nav-link">Checkout</a>
-                            <a href="#" class="nav-item nav-link">Contact</a>
+                            <a href="{% url 'shopping_cart' %}" class="nav-item nav-link">Shopping Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             {% if request.user.is_authenticated %}
+                            <a href="{% url 'checkout' %}" class="nav-item nav-link">Checkout</a>
                             <a href="{% url 'dashboard' %}" class="nav-item nav-link">dashboard</a>
                             <a href="{% url 'logout' %}" class="nav-item nav-link">logout</a>
                             {% else %}
@@ -164,10 +164,10 @@
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="{% url 'home' %}"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="#"><i
+                            <a class="text-dark mb-2" href="{% url 'shopping_cart' %}"><i
                                     class="fa fa-angle-right mr-2"></i>Shopping
                                 Cart</a>
-                            <a class="text-dark mb-2" href="{% url 'cart_summary' %}"><i
+                            <a class="text-dark mb-2" href="{% url 'checkout' %}"><i
                                     class="fa fa-angle-right mr-2"></i>Checkout</a>
                         </div>
                     </div>
