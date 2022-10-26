@@ -17,7 +17,6 @@ from .decorators import is_not_authenticated
 
 @login_required
 def dashboard(request):
-
     context = {}
     return render(request, 'customers/user/dashboard.html', context)
 
@@ -33,7 +32,6 @@ def edit_details(request):
 
     context = {'form': form}
     return render(request, 'customers/user/edit_details.html', context)
-
 
 
 @login_required

@@ -18,8 +18,8 @@ class TestCartViews(TestCase):
         self.client.post(reverse('cart_add'), {'productid': 1, 'productqty': 1})
         self.client.post(reverse('cart_add'), {'productid': 2, 'productqty': 3})
 
-    def test_cart_url(self):
-        response = self.client.get(reverse())
+    def test_shopping_cart_url(self):
+        response = self.client.get(reverse('shopping_cart'))
         self.assertEqual(response.status_code, 200)
     
     def test_cart_add(self):
@@ -33,7 +33,7 @@ class TestCartViews(TestCase):
         self.assertEqual(response.json(), {'qty': 1})
 
     def test_cart_update(self):
-        response = self.client.post(reverse('cart_update'), {'productid': '2', 'action': 'plus'})
+        response = self.client.post(reverse('cart_update'), {'productid': 2, 'action': 'plus'})
         self.assertEqual(response.json(), {'qty': 5})
         response = self.client.post(reverse('cart_update'), {'productid': 2, 'action': 'minus'})
         self.assertEqual(response.json(), {'qty': 3})

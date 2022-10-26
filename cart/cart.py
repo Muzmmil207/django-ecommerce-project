@@ -55,7 +55,7 @@ class Cart:
 
     def update(self, product_id, action):
         if product_id in self.cart:
-            product =  self.cart[product_id]
+            product =  self.cart[(product_id)]
 
             if action == 'plus':
                 product['qty'] += 1

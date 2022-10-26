@@ -19,10 +19,9 @@ def cart_add(request):
         product_qty = int(request.POST.get('productqty'))
         product = Product.objects.get(id=product_id)
         cart.add(product=product, qty=product_qty)
-    print(cart.cart)
-    cartqty = cart.__len__()
-    response = JsonResponse('', safe=False)
-    
+
+
+    response = JsonResponse(f'{product.titel} add to the cart', safe=False)
     return response
         
 
@@ -34,9 +33,7 @@ def cart_update(request):
         action = request.POST.get('action')
         cart.update(product_id=product_id, action=action)
 
-    cartqty = cart.__len__()
-    response = JsonResponse({'qty': cartqty})
-    
+    response = JsonResponse('cart updated', safe=False)
     return response
 
 
@@ -46,7 +43,5 @@ def cart_delete(request):
         product_id = request.POST.get('productid')
         cart.delete(product_id=product_id)
 
-    cartqty = cart.__len__()
-    response = JsonResponse({'qty': cartqty})
-    
+    response = JsonResponse('cart updated', safe=False)
     return response
