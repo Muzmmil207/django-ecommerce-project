@@ -14,7 +14,6 @@ def shopping_cart(request):
 def cart_add(request):
     cart = Cart(request)
     if request.method == 'POST':
-        print(request.POST)
         product_id = request.POST.get('productid')
         product_qty = int(request.POST.get('productqty'))
         product = Product.objects.get(id=product_id)
@@ -28,7 +27,6 @@ def cart_add(request):
 def cart_update(request):
     cart = Cart(request)
     if request.method == 'POST':
-        # print(request.POST)
         product_id = request.POST.get('productid')
         action = request.POST.get('action')
         cart.update(product_id=product_id, action=action)
