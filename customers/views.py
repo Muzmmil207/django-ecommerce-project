@@ -82,7 +82,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
 
-        login(user)
+        login(request, user)
         return redirect('dashboard')
     else:
         messages.error(request, 'Activation link is invalid!')

@@ -14,19 +14,23 @@ class UserLoginForm(AuthenticationForm):
 
 
 class RegistrationForm(forms.ModelForm):
-    first_name = forms.CharField(label='Enter Username', min_length=4, max_length=150, help_text='Required')
+    first_name = forms.CharField(label='Enter First Name', min_length=4, max_length=150, help_text='Required')
+    last_name = forms.CharField(label='Enter Last Name', min_length=4, max_length=150, help_text='Required')
     email = forms.CharField(max_length=50, help_text='Required', error_messages={'required': 'Sorry, you will need an email'})
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('first_name', 'email')
+        fields = ('first_name', 'last_name', 'email')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Username'}
+            {'class': 'form-control mb-3', 'placeholder': 'first name'}
+        )
+        self.fields['last_name'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'last name'}
         )
         self.fields['email'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'E-mail'}
