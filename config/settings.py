@@ -1,11 +1,17 @@
-from pathlib import Path
 import os
+from pathlib import Path
+import environ
+
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-+5u@k9=0wf&zzsz4z6cx4c%#mkwdqxhn4lz0i1-rpz!r*4dqu)'
@@ -128,3 +134,9 @@ LOGIN_URL = '/customer/login/'
 
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Stripe Payment
+PUBLISHABLE_KEY = env('PUBLISHABLE_KEY')
+SECRET_KEY = env('SECRET_KEY')
+STRIPE_ENDPOINT_SECRET = env('STRIPE_ENDPOINT_SECRET')
+# stripe listen --forward-to 127.0.0.1:8000/payment/webhook/

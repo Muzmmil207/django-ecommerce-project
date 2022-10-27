@@ -38,7 +38,7 @@
   
           </div>
           <div class="text-end">
-            Total paid: <span class="fw-bold">£{{ order.total_paid }}</span>
+            Total paid: <span class="fw-bold">${{ order.total_paid }}</span>
           </div>
         </div>
         <div class="col-md-5 col-lg-4 order-md-last p-0 order-3">
@@ -59,7 +59,7 @@
               </div>
               <div class="col-md-10">
                 <div class="card-body p-1">
-                  <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">
+                  <a class="text-decoration-none" href="{% url 'pro_detail' item.product.slug item.product.id %}">
                     <p class="card-text small">{{item.product|title}}</p>
                   </a>
                 </div>

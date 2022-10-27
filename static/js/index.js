@@ -40,14 +40,13 @@ var custAdd2 = document.getElementById("custAdd2").value;
 
   $.ajax({
     type: "POST",
-    url: 'http://127.0.0.1:8000/orders/add/',
+    url: 'http://127.0.0.1:8000/order/add/',
     data: {
       order_key: clientsecret,
       csrfmiddlewaretoken: CSRF_TOKEN,
-      action: "post",
     },
-    success: function (json) {
-      console.log(json.success)
+    success: function (response) {
+      console.log(response.success)
 
       stripe.confirmCardPayment(clientsecret, {
         payment_method: {
@@ -72,7 +71,9 @@ var custAdd2 = document.getElementById("custAdd2").value;
       });
 
     },
-    error: function (xhr, errmsg, err) {},
+    error: function (xhr, errmsg, err) {
+      window.location.replace("http://127.0.0.1:8000/payment/error/");
+    },
   });
 
 

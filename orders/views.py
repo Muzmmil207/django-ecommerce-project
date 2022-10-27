@@ -38,3 +38,6 @@ def add(request):
         return JsonResponse('success', safe=False)
     return JsonResponse('error', safe=False)
 
+
+def payment_confirmation(data):
+    Order.objects.filter(order_key=data).update(billing_status=True)

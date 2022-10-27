@@ -10,14 +10,17 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from customers.models import User
-from .token import account_activation_token
+from orders.models import Order
 from .forms import RegistrationForm, UserEditForm
+from .token import account_activation_token
 from .decorators import is_not_authenticated
 # Create your views here.
 
 @login_required
 def dashboard(request):
-    context = {}
+    user = request.user
+    orders = Order.objects.filter(user=user).filter(billing_status=True)
+    context = {'orders': orders}
     return render(request, 'customers/user/dashboard.html', context)
 
 

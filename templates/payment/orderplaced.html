@@ -1,22 +1,6 @@
-{% extends "../store/base.html" %}
-{% block title %}Log-in{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Order placed{% endblock %}
 {% block content %}
-
-<style>
-    .container-fluid {
-        max-width: 100%;
-    }
-
-    .account-form input {
-        border: 2px solid #ccc;
-        height: calc(2em + .75rem + 2px);
-    }
-
-    .account-form input:focus {
-        border-color: #1497ff;
-        box-shadow: none;
-    }
-</style>
 
 <div class="container-fluid">
     <div class="row no-gutter">
@@ -28,7 +12,7 @@
                             <div class="p-4">
                                 <h3 class="mb-4">Order has been placed</h3>
                                 <p>Check your email for confirmation</p>
-                                <a href="{% url "account:dashboard" %}">See orders</a>
+                                <a href="{% url 'dashboard' %}">See orders</a>
                             </div>       
                         </div>
                     </div>
