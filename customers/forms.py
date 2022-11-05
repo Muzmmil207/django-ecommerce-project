@@ -1,5 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 
 from .models import User
 
@@ -46,7 +50,7 @@ class RegistrationForm(forms.ModelForm):
         cd = self.cleaned_data
         if cd['password1'] != cd['password2']:
             raise forms.ValidationError("Passwords don't match")
-        return cd['password2']
+        return cd['password1']
 
     def unique_email(self):
         email = self.cleaned_data['email']
