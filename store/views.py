@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from products.models import Product, Category
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from products.models import Category, Product
+
 # Create your views here.
 
 
 def home(request):
-    products = Product.products.all()
-    context = {'products': products}
+    q = request.POST.get('q', '')
+    products = Product.products.filter(title__icontains=q)
 
+    context = {'products': products}
     return render(request, 'store/shop.html', context)
 
 
