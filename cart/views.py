@@ -20,8 +20,8 @@ def cart_add(request):
         cart.add(product=product, qty=product_qty)
 
 
-    response = JsonResponse(f'{product.titel} add to the cart', safe=False)
-    return response
+        response = JsonResponse(f'{product.title} add to the cart', safe=False)
+        return response
         
 
 def cart_update(request):

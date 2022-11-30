@@ -2,104 +2,58 @@
 {% block content %}
 <!-- Shop Detail Start -->
 <div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col-lg-5 pb-5">
-            <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner border">
-                    <div class="carousel-item active">
-                        <img class="w-100 h-100" src="{{product.image.url}}" alt="Image">
-                    </div>
-            </div>
-        </div>
 
-        <div class="col-lg-7 pb-5">
-            <h3 class="font-weight-semi-bold">{{product.title}}</h3>
-            <div class="d-flex mb-3">
-                <div class="text-primary mr-2">
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star-half-alt"></small>
-                    <small class="far fa-star"></small>
-                </div>
-                <small class="pt-1">({{product}} Reviews)</small>
-            </div>
-            <h3 class="font-weight-semi-bold mb-4">${{product.price}}</h3>
-            <p class="mb-4">{{product.description}}</p>
-            <div class="d-flex mb-3">
-                <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
-                <form>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="size-1" name="size">
-                        <label class="custom-control-label" for="size-1">XS</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="size-2" name="size">
-                        <label class="custom-control-label" for="size-2">S</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="size-3" name="size">
-                        <label class="custom-control-label" for="size-3">M</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="size-4" name="size">
-                        <label class="custom-control-label" for="size-4">L</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="size-5" name="size">
-                        <label class="custom-control-label" for="size-5">XL</label>
-                    </div>
-                </form>
-            </div>
-            <div class="d-flex mb-4">
-                <p class="text-dark font-weight-medium mb-0 mr-3">Colors:</p>
-                <form>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="color-1" name="color">
-                        <label class="custom-control-label" for="color-1">Black</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="color-2" name="color">
-                        <label class="custom-control-label" for="color-2">White</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="color-3" name="color">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="color-4" name="color">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="color-5" name="color">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                    </div>
-                </form>
-            </div>
-            <div class="d-flex align-items-center mb-4 pt-2">
-                <div class="col">
-                    <div class="row p-3">
-                        <div class="col-6">
-                            <label for="select">Qty</label>
-                            <select id="select">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-
-                        </div>
-                </div>
-                <button id="add-button" value="{{product.id}}" class="btn btn-primary px-3">
-                    <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
-                </button>
-            </div>
-
-        </div>
-    </div>
 </div>
 <!-- Shop Detail End -->
 <script>
+        $.ajax({
+        type: 'GET',
+        url: '/api/{{slug}}/{{pk}}/',
+        success: function (response) {
+                console.log(response)
+                let product = response
+                $('.container-fluid').append(
+                    `
+                    <div class="row px-xl-5">
+                        <div class="col-lg-5 pb-5">
+                                <div class="carousel-inner border">
+                                    <div class="carousel-item active">
+                                        <img class="w-100 h-100" src="${product.image}" alt="Image">
+                                    </div>
+                                </div>
+
+                            <div class="col-lg-7 pb-5">
+                                <h3 class="font-weight-semi-bold">${product.title}</h3>
+                                <h3 class="font-weight-semi-bold mb-4">$${product.price}</h3>
+                                <p class="mb-4">${product.description}</p>
+                                
+                                <div class="d-flex align-items-center mb-4 pt-2">
+                                    <div class="col">
+                                        <div class="row p-3">
+                                            <div class="col-6">
+                                                <label for="select">Qty</label>
+                                                <select id="select">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="add-button" value="${product.id}" class="btn btn-primary px-3">
+                                        <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>`
+                )
+            }
+    })
+
+
     $(document).on('click', '#add-button', function (e) {
         e.preventDefault();
         $.ajax({

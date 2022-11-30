@@ -1,5 +1,6 @@
-from django.db import models
 from customers.models import User
+from django.db import models
+
 # Create your models here.
 
 
@@ -44,7 +45,7 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     objects = models.Manager()
-    products = ProductManager()
+    active = ProductManager()
 
     class Meta:
         verbose_name_plural = 'Products'
